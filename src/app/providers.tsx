@@ -3,7 +3,7 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import { RainbowKitProvider, getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider, http } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains'; 
 import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
@@ -17,7 +17,7 @@ const ProvidersInner = ({ children }: { children: React.ReactNode }) => {
   const wagmiConfig = useMemo(() => {
     if (typeof window === 'undefined') return null;
     return getDefaultConfig({
-      appName: 'App Name',
+      appName: 'CryptoGotchi',
       projectId: WALLETCONNECT_PROJECT_ID,
       chains: [baseSepolia as any, base as any],
     }) as any;

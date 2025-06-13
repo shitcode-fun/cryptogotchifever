@@ -4,10 +4,11 @@ import dynamic from 'next/dynamic';
 
 const Providers = dynamic(() => import('./providers').then(mod => mod.Providers), { ssr: false });
 const Navbar = dynamic(() => import('../components/Navbar').then(mod => mod.Navbar), { ssr: false });
+const Footer = dynamic(() => import('../components/Footer').then(mod => mod.Footer), { ssr: false });
 
 export const metadata: Metadata = {
-  title: "Web3 App Template",
-  description: "Minimal Next.js web3 template.",
+  title: "CryptoGotchi",
+  description: "Hatch, raise, and trade CryptoGotchi virtual pets on Base L2.",
 };
 
 export default function RootLayout({
@@ -17,10 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className="antialiased flex flex-col min-h-screen pt-16 bg-background">
         <Providers>
           <Navbar />
-          {children}
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
         </Providers>
       </body>
     </html>
