@@ -65,11 +65,25 @@ export function TokenInfo() {
   const error = isNameError || isSymbolError || isDecimalsError || isSupplyError;
 
   if (loading) {
-    return <p>Loading token info...</p>;
+    return (
+      <div className="max-w-md w-full bg-card p-6 rounded-lg shadow-md animate-pulse space-y-4">
+        <div className="h-6 bg-muted rounded w-1/3" />
+        <div className="h-4 bg-muted rounded w-2/3" />
+        <div className="h-4 bg-muted rounded w-1/2" />
+        <div className="h-4 bg-muted rounded w-full" />
+      </div>
+    );
   }
 
   if (error || !name || !symbol || decimals === undefined || !totalSupply) {
-    return <p>Error loading token information.</p>;
+    return (
+      <div
+        role="alert"
+        className="max-w-md w-full bg-card p-6 rounded-lg shadow-md border-l-4 border-destructive"
+      >
+        <p className="text-destructive">Error loading token information.</p>
+      </div>
+    );
   }
 
   const formattedSupply = formatUnits(totalSupply, decimals);
@@ -79,7 +93,7 @@ export function TokenInfo() {
       : null;
 
   return (
-    <div className="max-w-md w-full bg-card p-6 rounded-lg shadow-md">
+    <div className="max-w-md w-full bg-card p-6 rounded-lg shadow-md transition-shadow hover:shadow-lg">
       <h2 className="text-2xl font-semibold mb-4">Token Information</h2>
       <ul className="space-y-2">
         <li>

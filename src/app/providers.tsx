@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains'; 
 import dynamic from 'next/dynamic';
+import { ToastProvider } from '@/components/ui/Toast';
 import { useMemo } from 'react';
 
 // This is a placeholder WalletConnect Project ID. It must remain here to avoid build errors if the environment variable is not set yet.
@@ -30,10 +31,10 @@ const ProvidersInner = ({ children }: { children: React.ReactNode }) => {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          modalSize="compact" // 'compact' | 'wide'
-        >
-          {children}
+        <RainbowKitProvider modalSize="compact">
+          <ToastProvider>
+            {children}
+          </ToastProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

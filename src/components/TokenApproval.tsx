@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAccount, useReadContract, useWriteContract } from 'wagmi';
 import { isAddress, parseUnits } from 'ethers';
+
 import TokenABI from '@/abis/Token.json';
 import { TOKEN_ADDRESS } from '@/lib/constants';
+import { useToast } from '@/components/ui/Toast';
 
 export function TokenApproval() {
   const { address: owner, isConnected } = useAccount();
@@ -19,6 +21,7 @@ export function TokenApproval() {
     isSuccess,
     error,
   } = useWriteContract();
+  const showToast = useToast();
 
   const [spender, setSpender] = useState('');
   const [amount, setAmount] = useState('');
@@ -52,36 +55,54 @@ export function TokenApproval() {
     });
   };
 
+  useEffect(() => {
+    if (isSuccess) showToast('Approval successful!', 'success');
+    if (error) showToast((error as Error).message, 'error');
+  }, [isSuccess, error, showToast]);
+
   return (
-    <div className="max-w-md w-full bg-card p-6 rounded-lg shadow-md mt-6">
+    <div className="max-w-md w-full bg-card p-6 rounded-lg shadow-md mt-6 transition-shadow hover:shadow-lg">
       <h2 className="text-2xl font-semibold mb-4">Approve Tokens</h2>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Spender Address</label>
+        <label htmlFor="spender" className="block text-sm font-medium mb-1">
+          Spender Address
+        </label>
         <input
+          id="spender"
+          name="spender"
           type="text"
+          aria-label="Spender address"
           value={spender}
           onChange={e => setSpender(e.target.value)}
-          className="w-full p-2 border border-border rounded"
           placeholder="0x..."
+          className="w-full p-2 mb-2 border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
         />
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Amount</label>
+        <label htmlFor="amount" className="block text-sm font-medium mb-1">
+          Amount
+        </label>
         <input
+          id="amount"
+          name="amount"
           type="text"
+          aria-label="Amount to approve"
           value={amount}
           onChange={e => setAmount(e.target.value)}
-          className="w-full p-2 border border-border rounded"
           placeholder="0.0"
+          className="w-full p-2 mb-2 border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
         />
       </div>
-      {formError && <p className="text-destructive mb-2">{formError}</p>}
-      {error && <p className="text-destructive mb-2">{(error as Error).message}</p>}
-      {isSuccess && <p className="text-green-600 mb-2">Approval successful!</p>}
+      {formError && (
+        <p role="alert" className="text-destructive mb-2">
+          {formError}
+        </p>
+      )}
       <button
+        type="button"
         disabled={isApproving}
         onClick={handleApprove}
-        className="w-full bg-primary text-primary-foreground py-2 rounded disabled:opacity-50"
+        className="w-full bg-primary text-primary-foreground py-2 rounded disabled:opacity-50 transition-colors hover:bg-primary/90 active:scale-95"
       >
         {isApproving ? 'Approving...' : 'Approve'}
       </button>

@@ -7,8 +7,36 @@ const Navbar = dynamic(() => import('../components/Navbar').then(mod => mod.Navb
 const Footer = dynamic(() => import('../components/Footer').then(mod => mod.Footer), { ssr: false });
 
 export const metadata: Metadata = {
-  title: "CryptoGotchi",
-  description: "Hatch, raise, and trade CryptoGotchi virtual pets on Base L2.",
+  title: {
+    default: 'CryptoGotchi',
+    template: '%s | CryptoGotchi',
+  },
+  description: 'Hatch, raise, and trade unique CryptoGotchi pets on Base L2 blockchain.',
+  keywords: ['CryptoGotchi', 'Base L2', 'virtual pets', 'blockchain', 'Web3'],
+  authors: [{ name: 'CryptoGotchi Team', url: 'https://your-domain.com' }],
+  creator: 'gtopolice',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
+  ],
+  openGraph: {
+    title: 'CryptoGotchi',
+    description: 'Hatch, raise, and trade unique CryptoGotchi pets on Base L2 blockchain.',
+    url: 'https://your-domain.com',
+    siteName: 'CryptoGotchi',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CryptoGotchi',
+    description: 'Hatch, raise, and trade unique CryptoGotchi pets on Base L2 blockchain.',
+    creator: '@gtopolice',
+  },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
